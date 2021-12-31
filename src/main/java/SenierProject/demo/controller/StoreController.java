@@ -102,10 +102,12 @@ public class StoreController {
     }
     @Getter
     static class FoodListDto{
+        private Long id;
         private String name;
         private Long price;
         private FoodStatus status;
         public FoodListDto(Food food){
+            id=food.getId();
             name= food.getName();
             price=food.getPrice();
             status=food.getStatus();

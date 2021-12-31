@@ -26,14 +26,14 @@ public class FoodController {
             @PathVariable("id")Long id
     ){
         Food food = foodService.findId(id);
-        FoodDto foodDto= new FoodDto(food.getName(),food.getPrice(),food.getStatus(),food.getStore().getName());
+        FoodDto foodDto= new FoodDto(food.getId(),food.getName(),food.getPrice(),food.getStatus(),food.getStore().getName());
         return new Result(foodDto);
     }
     /**
      음식등록
      */
-    @PostMapping("/food/{id}")
-    public CreateFoodResponse saveFood(@PathVariable("id")Long storeId,@RequestBody @Valid CreateFoodRequest request){
+    @PostMapping("/food/{storeId}")
+    public CreateFoodResponse saveFood(@PathVariable("storeId")Long storeId,@RequestBody @Valid CreateFoodRequest request){
         Food food=Food.createFood(storeService.findOne(storeId),request.getName(),request.getPrice());
         Long id =foodService.join(food);
         return new CreateFoodResponse(id);
@@ -57,7 +57,6 @@ public class FoodController {
     @PatchMapping("/food/{id}/soldout")
     public saleFood soldOut(
             @PathVariable("id")Long id
-
     ){
         foodService.sale(id,FoodStatus.SOLDOUT);
         Food food = foodService.findId(id);
@@ -69,8 +68,6 @@ public class FoodController {
     @PatchMapping("/food/{id}/onsale")
     public saleFood onSale(
             @PathVariable("id")Long id
-
-
     ){
         foodService.sale(id,FoodStatus.ONSALE);
         Food food = foodService.findId(id);
@@ -98,6 +95,7 @@ public class FoodController {
     @Data
     @AllArgsConstructor
     static class FoodDto{
+        private Long id;
         private String name;
         private Long price;
         private FoodStatus status;
