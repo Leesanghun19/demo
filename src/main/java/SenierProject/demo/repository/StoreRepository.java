@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -18,7 +19,9 @@ public class StoreRepository {
         em.persist(store);
     }
     //단건조회
-    public Store findOne(Long id){return em.find(Store.class,id);}
+    public Optional<Store> findOne(Long id){
+        Store store = em.find(Store.class, id);
+        return Optional.ofNullable(store);}
     //음식점이름조회
     public Store findByName(String name){
         return em.createQuery("select s from Store s where s.name = :name",Store.class)

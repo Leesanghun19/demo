@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -30,7 +29,7 @@ public class MemberService {
     }
     //회원조회
     public List<Member> findMembers(){return memberRepository.findALl();}
-    public Member findOne(Long memberId) {return memberRepository.findOne(memberId);}
+    public Member findOne(Long memberId) {return memberRepository.findById(memberId).get();}
 
     //삭제
     @Transactional

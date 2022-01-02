@@ -73,6 +73,7 @@ public class StoreController {
         storeService.deleteStore(id);
         return new DeleteFoodResponse(id);
     }
+
     /**
      DTO
      */

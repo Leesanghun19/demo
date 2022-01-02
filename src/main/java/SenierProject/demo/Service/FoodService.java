@@ -24,18 +24,18 @@ public class FoodService {
     //수정
     @Transactional
     public void update(Long id,String name,Long price){
-        Food food = foodRepository.findOne(id);
+        Food food = foodRepository.findById(id).get();
         food.setName(name);
         food.setPrice(price);
         food.setUpdate(LocalDateTime.now());
     }
     @Transactional
     public void sale(Long id, FoodStatus status){
-        Food food = foodRepository.findOne(id);
+        Food food = foodRepository.findById(id).get();
         food.setStatus(status);
     }
     //조회
-    public Food findOne(Long foodId){return foodRepository.findOne(foodId);}
+    public Food findOne(Long foodId){return foodRepository.findById(foodId).get();}
     //public List<Food> findAllFood(){return foodRepository.findAll();}
     public Food findId(Long foodId){return foodRepository.findIdWithStore(foodId);}
     //삭제

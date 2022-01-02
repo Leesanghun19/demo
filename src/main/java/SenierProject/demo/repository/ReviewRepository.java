@@ -1,11 +1,12 @@
 package SenierProject.demo.repository;
 
-import SenierProject.demo.domain.Food;
 import SenierProject.demo.domain.Review;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.Optional;
+
 @Repository
 @RequiredArgsConstructor
 
@@ -16,7 +17,10 @@ public class ReviewRepository {
         em.persist(review);
     }
     //단건조회
-    public Review findOne(Long id){return em.find(Review.class,id);}
+    public Optional<Review> findById(Long id){
+        Review review = em.find(Review.class, id);
+        return Optional.ofNullable(review);
+    }
     //조회
     public Review findIdWithStore(Long id){
         return em.createQuery(
@@ -39,7 +43,7 @@ public class ReviewRepository {
     }
     //삭제
     public void deleteReview(Long reviewId){
-        em.remove(findOne(reviewId));
+        em.remove(findById(reviewId));
     }
 
 }

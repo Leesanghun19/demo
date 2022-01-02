@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -17,7 +18,7 @@ public class FoodRepository {
     //저장
     public void save(Food food){em.persist(food);}
     //단건조회
-    public Food findOne(Long id){return em.find(Food.class,id);}
+    public Optional<Food> findById(Long id){Food food=em.find(Food.class,id);return Optional.ofNullable(food);}
     //전부조회
     public List<Food> findAll(){
         return em.createQuery("select f from Food f", Food.class)
@@ -33,8 +34,11 @@ public class FoodRepository {
                 ).setParameter("id",id)
                 .getSingleResult();
     }
+    public long count(){
+        return em.createQuery("select count(f) from Food f",Long.class).getSingleResult();
+    }
     //삭제
     public void deleteFood(Long foodId){
-        em.remove(findOne(foodId));
+        em.remove(findById(foodId));
     }
 }

@@ -23,7 +23,7 @@ public class StoreService {
     @Transactional
     public void deleteStore(Long storeId){storeRepository.deleteStore(storeId);}
     //조회
-    public Store findOne(Long StoreId){return storeRepository.findOne(StoreId);}
+    public Store findOne(Long StoreId){return storeRepository.findOne(StoreId).get();}
     public Store findName(String storeName){return storeRepository.findByName(storeName);}
     public List<Store> findALl(){return storeRepository.findAll();}
 }

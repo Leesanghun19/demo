@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -18,7 +19,10 @@ public class MemberRepository {
     //저장
     public void save(Member member){em.persist(member);}
     //단건조회
-    public Member findOne(Long id){return em.find(Member.class,id);}
+    public Optional<Member> findById(Long id){
+        Member member = em.find(Member.class, id);
+        return Optional.ofNullable(member);
+    }
     //전부조회
     public List<Member> findALl(){
         return em.createQuery("select m from Member m",Member.class).getResultList();
@@ -31,6 +35,6 @@ public class MemberRepository {
     }
     //삭제
     public void deleteMember(Long memberId){
-        em.remove(findOne(memberId));
+        em.remove(findById(memberId));
     }
 }
