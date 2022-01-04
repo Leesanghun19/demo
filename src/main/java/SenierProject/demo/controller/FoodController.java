@@ -123,12 +123,14 @@ public class FoodController {
         private LocalDateTime createTime;
         private LocalDateTime updateTime;
         private int star;
+        private String nickname;
         public  ReviewList(Review review){
             text=review.getText();
             retext=review.getRetext();
             createTime=review.getReviewDate();
             updateTime=review.getUpdate();
             star=review.getReviewStar().ordinal()+1;
+            nickname=review.getMember().getNickName();
         }
     }
     @Data
