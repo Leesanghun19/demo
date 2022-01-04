@@ -22,24 +22,26 @@ public class ReviewRepository {
         return Optional.ofNullable(review);
     }
     //조회
-    public Review findIdWithStore(Long id){
-        return em.createQuery(
+    public Optional<Review> findIdWithStore(Long id){
+        Review review = em.createQuery(
                         "select r from Review r" +
-                                " join fetch r.store s"+
+                                " join fetch r.store s" +
                                 " where r.id = :id"
-                        ,Review.class
-                ).setParameter("id",id)
+                        , Review.class
+                ).setParameter("id", id)
                 .getSingleResult();
+        return Optional.ofNullable(review);
     }
     //조회
-    public Review findIdWithMember(Long id){
-        return em.createQuery(
+    public Optional<Review> findIdWithMember(Long id){
+        Review review = em.createQuery(
                         "select r from Review r" +
                                 " join fetch r.member m"+
                                 " where r.id = :id"
                         ,Review.class
                 ).setParameter("id",id)
                 .getSingleResult();
+        return Optional.ofNullable(review);
     }
     //삭제
     public void deleteReview(Long reviewId){

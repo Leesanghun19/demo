@@ -4,6 +4,7 @@ import SenierProject.demo.Service.FoodService;
 import SenierProject.demo.Service.StoreService;
 import SenierProject.demo.domain.Food;
 import SenierProject.demo.domain.FoodStatus;
+import SenierProject.demo.domain.Review;
 import SenierProject.demo.domain.Store;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,7 +30,7 @@ public class FoodController {
             @PathVariable("id")Long id
     ){
         Food food = foodService.findId(id);
-        FoodDto foodDto= new FoodDto(food.getId(),food.getName(),food.getPrice(),food.getStatus(),food.getStore().getName());
+        FoodDto foodDto= new FoodDto(food);
         return new Result(foodDto);
     }
     /**
@@ -94,12 +98,38 @@ public class FoodController {
     }
     @Data
     @AllArgsConstructor
-    static class FoodDto{
+    private class FoodDto{
         private Long id;
         private String name;
         private Long price;
         private FoodStatus status;
         private String storeName;
+        private List<ReviewList> reviewList;
+        public FoodDto(Food food){
+            id=food.getId();
+            name=food.getName();
+            price= food.getPrice();
+            status=food.getStatus();
+            storeName=food.getStore().getName();
+            reviewList=food.getReviews().stream()
+                    .map(review->new ReviewList(review))
+                    .collect(Collectors.toList());
+        }
+    }
+    @Data
+    private class ReviewList{
+        private String text;
+        private String retext;
+        private LocalDateTime createTime;
+        private LocalDateTime updateTime;
+        private int star;
+        public  ReviewList(Review review){
+            text=review.getText();
+            retext=review.getRetext();
+            createTime=review.getReviewDate();
+            updateTime=review.getUpdate();
+            star=review.getReviewStar().ordinal()+1;
+        }
     }
     @Data
     static class CreateFoodResponse{

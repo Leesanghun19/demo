@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -22,8 +23,8 @@ public class ReviewService {
 
     //조회
     public Review findOne(Long id){return reviewRepository.findById(id).get();}
-    public Review findIdWithStore(Long id){return reviewRepository.findIdWithStore(id);}
-    public Review findIdWithMember(Long id){return reviewRepository.findIdWithMember(id);}
+    public Review findIdWithStore(Long id){return reviewRepository.findIdWithStore(id).get();}
+    public Review findIdWithMember(Long id){return reviewRepository.findIdWithMember(id).get();}
 
     //삭제
     @Transactional
