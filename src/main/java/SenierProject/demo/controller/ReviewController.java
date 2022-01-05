@@ -33,6 +33,12 @@ public class ReviewController {
         return new CreateReviewResponse(join);
 
     }
+    @PatchMapping("/review/{id}")
+    public ReText reText(@PathVariable("id")Long id,@RequestBody @Valid ReText request){
+        Review review = reviewService.findOne(id);
+        review.setRetext(request.getReText());
+        return new ReText(request.getReText());
+    }
     @DeleteMapping("/review/{id}")
     public DeleteReviewResponse deleteFoodResponse(
                 @PathVariable("id")Long id
@@ -59,7 +65,12 @@ public class ReviewController {
 
     }
 
+    @Data
+    @AllArgsConstructor
+    static class ReText{
+        private String reText;
 
+    }
 
     @Data
     static class ReviewByStore {
