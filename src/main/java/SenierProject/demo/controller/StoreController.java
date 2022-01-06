@@ -85,8 +85,11 @@ public class StoreController {
     }
     @Data
     static class StoreDto {
+        private Long id;
         private String name;
+
         public StoreDto(Store store){
+            id= store.getId();
             name=store.getName();
         }
     }

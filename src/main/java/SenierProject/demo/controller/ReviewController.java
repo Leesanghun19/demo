@@ -19,7 +19,9 @@ public class ReviewController {
     private FoodService foodService;
     private MemberService memberService;
 
-
+    /**
+     리뷰등록
+     */
     @PostMapping("/review/{foodId}/{memberId}")
     public CreateReviewResponse createReview(
             @PathVariable("foodId")Long foodId,@PathVariable("memberId")Long memberId, @RequestBody @Valid CreateReviewRequest request){
@@ -33,12 +35,18 @@ public class ReviewController {
         return new CreateReviewResponse(join);
 
     }
+    /**
+     사업자 리뷰답변등록
+     */
     @PatchMapping("/review/{id}")
     public ReText reText(@PathVariable("id")Long id,@RequestBody @Valid ReText request){
         Review review = reviewService.findOne(id);
         review.setRetext(request.getReText());
         return new ReText(request.getReText());
     }
+    /**
+     리뷰삭제
+     */
     @DeleteMapping("/review/{id}")
     public DeleteReviewResponse deleteFoodResponse(
                 @PathVariable("id")Long id
