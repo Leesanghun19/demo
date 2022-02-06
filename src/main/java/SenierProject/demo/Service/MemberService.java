@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -22,16 +23,16 @@ public class MemberService {
     }
     //이메일중복확인
     public void validateDuplicateEmail(Member member){
-        List<Member> findMember = memberRepository.findByEmail(member.getEmail());
+        Optional<Member> findMember = memberRepository.findByEmail(member.getEmail());
         if(!findMember.isEmpty()){
             throw new IllegalStateException("이미 존제하는 이메일");
         }
     }
     //회원조회
-    public List<Member> findMembers(){return memberRepository.findALl();}
+    public List<Member> findMembers(){return memberRepository.findAll();}
     public Member findOne(Long memberId) {return memberRepository.findById(memberId).get();}
 
     //삭제
     @Transactional
-    public void deleteMember(Long memberId){memberRepository.deleteMember(memberId);}
+    public void deleteMember(Long memberId){memberRepository.deleteById(memberId);}
 }

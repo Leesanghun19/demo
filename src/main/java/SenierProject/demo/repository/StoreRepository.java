@@ -32,6 +32,6 @@ public class StoreRepository {
     public List<Store> findAll(){return em.createQuery("select s from Store s",Store.class).getResultList();}
     //삭제
     public void deleteStore(Long storeId){
-        em.remove(findOne(storeId));
+        em.remove(findOne(storeId).get());
     }
 }

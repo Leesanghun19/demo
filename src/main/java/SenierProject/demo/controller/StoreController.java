@@ -48,6 +48,10 @@ public class StoreController {
     public CreateStoreResponse saveStore(@RequestBody @Valid CreateStoreRequest request){
         Store store= new Store();
         store.setName(request.getName());
+        store.setIntroduce(request.introduce);
+        store.setFoodOrigin(request.foodOrigin);
+        store.setNumber(request.number);
+        store.setPhoneNumber(request.phoneNumber);
         Long id = storeService.join(store);
         return new CreateStoreResponse(id);
     }
@@ -87,10 +91,12 @@ public class StoreController {
     static class StoreDto {
         private Long id;
         private String name;
-
+        private String introduce;
         public StoreDto(Store store){
             id= store.getId();
             name=store.getName();
+            introduce=store.getIntroduce();
+
         }
     }
     @Data
@@ -98,8 +104,10 @@ public class StoreController {
     static class StoreDtoFood{
         private String name;
         private List<FoodListDto> foodListDtoList;
+        private String phoneNumber;
         public StoreDtoFood(Store store){
             name=store.getName();
+            phoneNumber= store.getPhoneNumber();
             foodListDtoList=store.getFood().stream()
                     .map(food -> new FoodListDto(food)).collect(Collectors.toList());
         }
@@ -129,6 +137,11 @@ public class StoreController {
     static class CreateStoreRequest{
         @NotEmpty
         private String name;
+        private String phoneNumber;
+        private String number;
+        private String introduce;
+        private String foodOrigin;
+
     }
     @Data
     @AllArgsConstructor

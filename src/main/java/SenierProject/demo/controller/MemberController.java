@@ -2,6 +2,7 @@ package SenierProject.demo.controller;
 
 import SenierProject.demo.Service.MemberService;
 import SenierProject.demo.domain.Member;
+import SenierProject.demo.repository.EmailRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class MemberController {
 
      */
     private  final MemberService memberService;
+    private final EmailRepository emailRepository;
     /**
     모든회원이름 조회
      */
@@ -48,12 +50,17 @@ public class MemberController {
      */
     @PostMapping("/member")
     public CreateMemberResponse saveMember(@RequestBody @Valid CreateMemberRequest request){
-        Member member = new Member();
-        member.setNickName(request.getNickName());
-        member.setEmail(request.getEmail());
-        member.setCreateDate(LocalDateTime.now());
-        Long id = memberService.join(member);
-        return new CreateMemberResponse(id);
+        if(emailRepository.findByEmail(request.getEmail()).get().isCheck()==true) {
+            Member member = Member.builder()
+                    .nickName(request.getNickName())
+                    .email(request.getEmail())
+                    .createDate(LocalDateTime.now()).build();
+
+            Long id = memberService.join(member);
+            return new CreateMemberResponse(id);
+        }
+        else
+            return new CreateMemberResponse(-1L);
     }
     /**
     회원삭제
