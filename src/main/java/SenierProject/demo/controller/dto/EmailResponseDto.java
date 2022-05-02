@@ -3,10 +3,10 @@ package SenierProject.demo.controller.dto;
 import lombok.Data;
 
 @Data
-public class ResponseDto {
+public class EmailResponseDto {
 
     private String response;
-    public ResponseDto(String email){
+    public EmailResponseDto(String email){
         this.response =email;
     }
 }

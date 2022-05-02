@@ -1,12 +1,14 @@
 package SenierProject.demo.domain;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -14,35 +16,24 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member implements UserDetails {
-
+public class Business implements UserDetails {
     @Id
     @GeneratedValue
-    @Column(name = "member_id")
+    @Column(name="email_id")
     private Long id;
 
-    private String nickName;
-    private String password;
+    private String name;
     private String email;
-    private String phoneNumber;
+    private String password;
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> roles = new HashSet<>();
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Review> reviews = new ArrayList<>();
-
-    public Member(String nickName, String passWord, String email){
-        this.nickName=nickName;
-        this.password =passWord;
-        this.email=email;
-        this.roles.add("ROLE_USER");
-
-    }
-
+    @OneToOne(mappedBy = "business")
+    private Store store;
     public void updatePassWord(String passWord){
         this.password =passWord;
     }
     public void updateNickName(String nickName){
-        this.nickName =nickName;
+        this.name =nickName;
     }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -50,7 +41,13 @@ public class Member implements UserDetails {
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }
+    public Business(String nickName, String passWord, String email){
+        this.name=nickName;
+        this.password =passWord;
+        this.email=email;
+        this.roles.add("ROLE_USER");
 
+    }
     @Override
     public String getPassword() {
         return password;

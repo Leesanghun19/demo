@@ -16,7 +16,8 @@ public class MemberService {
     private  final MemberRepository memberRepository;
     //회원가입
     @Transactional
-    public Long join(Member member){
+    public Long join(String nickName, String passWord, String email){
+        Member member = new Member(nickName,passWord,email);
         validateDuplicateEmail(member);
         memberRepository.save(member);
         return member.getId();
@@ -30,8 +31,14 @@ public class MemberService {
     }
     //회원조회
     public List<Member> findMembers(){return memberRepository.findAll();}
-    public Member findOne(Long memberId) {return memberRepository.findById(memberId).get();}
+    public Member findById(Long memberId) {return memberRepository.findById(memberId).get();}
+    @Transactional
+    public void updateMember(Long memberId,String password,String nickName){
+        Member member = memberRepository.findById(memberId).get();
+        member.updatePassWord(password);
+        member.updateNickName(nickName);
 
+    }
     //삭제
     @Transactional
     public void deleteMember(Long memberId){memberRepository.deleteById(memberId);}

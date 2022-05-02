@@ -2,11 +2,13 @@ package SenierProject.demo.Service;
 
 import SenierProject.demo.domain.Food;
 import SenierProject.demo.domain.FoodStatus;
+import SenierProject.demo.domain.Review;
 import SenierProject.demo.repository.FoodRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,16 +25,29 @@ public class FoodService {
     }
     //수정
     @Transactional
-    public void update(Long id,String name,Long price){
+    public void update(Long id,String name,String price){
         Food food = foodRepository.findById(id).get();
         food.setName(name);
         food.setPrice(price);
-        food.setUpdate(LocalDateTime.now());
+
     }
     @Transactional
     public void sale(Long id, FoodStatus status){
         Food food = foodRepository.findById(id).get();
         food.setStatus(status);
+    }
+
+    @Transactional
+    public void rateUp(Food food,Float rateStar){
+        if(food.getRateAverage()==null){
+            food.setRateNum(1L);
+            food.setRateAverage(rateStar);
+        }
+        else {
+
+            food.setRateNum(food.getRateNum()+1);
+            food.setRateAverage((food.getRateAverage()*(food.getRateNum()-1)+rateStar)/food.getRateNum());
+        }
     }
     //조회
     public Food findOne(Long foodId){return foodRepository.findById(foodId).get();}

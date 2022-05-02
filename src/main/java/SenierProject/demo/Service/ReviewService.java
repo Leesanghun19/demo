@@ -31,10 +31,12 @@ public class ReviewService {
     public void deleteReview(Long reviewId){reviewRepository.deleteReview(reviewId);}
     //수정
     @Transactional
-    public void update(Long id,String text,String reText){
+    public void update(Long id,String text,String retext){
         Review review=reviewRepository.findById(id).get();
-        review.setText(text);
-        review.setRetext(reText);
-        review.setUpdate(LocalDateTime.now());
+        if(!(text==null)) {
+            review.setTexts(text);
+        }
+        review.setRetext(retext);
+        review.setUpdateDate(LocalDateTime.now());
     }
 }

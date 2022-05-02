@@ -39,6 +39,6 @@ public class FoodRepository {
     }
     //삭제
     public void deleteFood(Long foodId){
-        em.remove(findById(foodId));
+        em.remove(findById(foodId).get());
     }
 }

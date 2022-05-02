@@ -1,14 +1,19 @@
 package SenierProject.demo.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Store {
     @Id
     @GeneratedValue
@@ -24,4 +29,10 @@ public class Store {
     private List<Food> food = new ArrayList<>();
 
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="business_id")
+    private Business business;
+
+    @OneToOne(mappedBy = "store")
+    private Photo photo;
 }
