@@ -129,7 +129,9 @@ public class FoodController {
     }
     @PostMapping("/user/store/{foodid}/food")
     public ResponseEntity upload(@PathVariable("foodid") Long id, @RequestPart MultipartFile file, HttpServletRequest request2) throws IOException {
-
+        if(foodService.findOne(id).getPhoto()!=null){
+            throw new IllegalStateException("이미 사진이있습니다");
+        }
 
             Long pid = photoService.joinf(file, foodService.findOne(id));
             return new ResponseEntity(pid, HttpStatus.OK);
@@ -185,7 +187,9 @@ public class FoodController {
         private int star;
         private String nickname;
         private List<Long> photoIds;
+        private Long reviewid;
         public  ReviewList(Review review){
+            reviewid=review.getId();
             text=review.getTexts();
             retext=review.getRetext();
             createTime=review.getReviewDate();
