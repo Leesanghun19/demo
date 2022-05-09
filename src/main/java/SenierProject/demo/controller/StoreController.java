@@ -163,11 +163,13 @@ public class StoreController {
     @Data
     @AllArgsConstructor
     static class StoreDtoFood{
+        private Long StoreId;
         private String name;
         private List<FoodListDto> foodListDtoList;
         private String phoneNumber;
         private String foodOrigin;//원산지
         public StoreDtoFood(Store store){
+            StoreId=store.getId();
             name=store.getName();
             phoneNumber= store.getPhoneNumber();
             foodOrigin=store.getFoodOrigin();
