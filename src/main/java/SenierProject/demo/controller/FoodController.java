@@ -22,6 +22,7 @@ import javax.validation.constraints.NotEmpty;
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -186,7 +187,7 @@ public class FoodController {
         private LocalDateTime updateTime;
         private int star;
         private String nickname;
-        private List<Long> photoIds;
+        private ArrayList<Long> photoIds= new ArrayList<>();
         private Long reviewid;
         public  ReviewList(Review review){
             reviewid=review.getId();
@@ -196,8 +197,11 @@ public class FoodController {
             updateTime=review.getUpdateDate();
             star=review.getReviewStar().ordinal()+1;
             nickname=review.getMember().getNickName();
-            for(Photo photo : review.getPhotos()){
-                photoIds.add(photo.getId());
+            if((review.getPhotos()!=null)) {
+                for (Photo photo : review.getPhotos()) {
+                     Long a=photo.getId();
+                     photoIds.add(a);
+                }
             }
 
         }
