@@ -105,21 +105,18 @@ public class EmailController {
     //이메일,인증번호로그/DB 저장
     private MimeMessage createMessage(String to)throws Exception{
         logger.info("보내는 대상 : "+ to);
-
         MimeMessage  message = emailSender.createMimeMessage();
         String ePw = createKey();
         logger.info("인증 번호 : " + ePw);
         String code = createCode(ePw);
         message.addRecipients(MimeMessage.RecipientType.TO, to); //보내는 대상
         message.setSubject("Slack 확인 코드: " + code); //제목
-
         if(emailRepository.findByEmail(to).isEmpty()) {
             emailService.save(to, code);
         }
         else{
             emailService.setCode(to,code);
         }
-
         String msg="";
         msg += "<img width=\"120\" height=\"36\" style=\"margin-top: 0; margin-right: 0; margin-bottom: 32px; margin-left: 0px; padding-right: 30px; padding-left: 30px;\" src=\"https://slack.com/x-a1607371436052/img/slack_logo_240.png\" alt=\"\" loading=\"lazy\">";
         msg += "<h1 style=\"font-size: 30px; padding-right: 30px; padding-left: 30px;\">이메일 주소 확인</h1>";
@@ -128,10 +125,8 @@ public class EmailController {
         msg += code;
         msg += "</td></tr></tbody></table></div>";
         msg += "<a href=\"https://slack.com\" style=\"text-decoration: none; color: #434245;\" rel=\"noreferrer noopener\" target=\"_blank\">Slack Clone Technologies, Inc</a>";
-
         message.setText(msg, "utf-8", "html"); //내용
         message.setFrom(new InternetAddress(to,"slack-clone")); //보내는 사람
-
         return message;
     }
 

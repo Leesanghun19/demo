@@ -168,7 +168,9 @@ public class StoreController {
         private List<FoodListDto> foodListDtoList;
         private String phoneNumber;
         private String foodOrigin;//원산지
+        private String introduce;
         public StoreDtoFood(Store store){
+            introduce=store.getIntroduce();
             StoreId=store.getId();
             name=store.getName();
             phoneNumber= store.getPhoneNumber();
@@ -184,11 +186,13 @@ public class StoreController {
         private String price;
         private FoodStatus status;
         private Long photoId;
+        private Float rateAverage;
         public FoodListDto(Food food){
             id=food.getId();
             name= food.getName();
             price=food.getPrice();
             status=food.getStatus();
+            rateAverage=food.getRateAverage();
             if(!(food.getPhoto()==null)) {
                 photoId = food.getPhoto().getId();
             }
