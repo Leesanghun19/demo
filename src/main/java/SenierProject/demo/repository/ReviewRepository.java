@@ -45,7 +45,7 @@ public class ReviewRepository {
     }
     //삭제
     public void deleteReview(Long reviewId){
-        em.remove(findById(reviewId));
+        em.remove(findById(reviewId).get());
     }
 
 }
