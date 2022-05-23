@@ -1,5 +1,6 @@
 package SenierProject.demo.Exceptions;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,27 +15,32 @@ public class ExceptionsHandler {
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<ErrorResult> noSuch(NoSuchElementException e){
         ErrorResult errorResult = new ErrorResult("NoSuch-Element",e.getMessage());
+        e.printStackTrace();
         return new ResponseEntity(errorResult, HttpStatus.BAD_REQUEST);
     }
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResult> illegalArgument(IllegalArgumentException e){
         ErrorResult errorResult = new ErrorResult("Illegal-Argument",e.getMessage());
+        e.printStackTrace();
         return new ResponseEntity(errorResult, HttpStatus.BAD_REQUEST);
     }
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<ErrorResult> nullPointer(NullPointerException e){
         ErrorResult errorResult = new ErrorResult("Null-Point",e.getMessage());
+        e.printStackTrace();
         return new ResponseEntity(errorResult, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResult> accessDenied(AccessDeniedException e){
         ErrorResult errorResult = new ErrorResult("Forbidden",e.getMessage());
+        e.printStackTrace();
         return new ResponseEntity(errorResult, HttpStatus.FORBIDDEN);
     }
     @ExceptionHandler(NonUniqueResultException.class)
     public ResponseEntity<ErrorResult> accessDenied(NonUniqueResultException e){
         ErrorResult errorResult = new ErrorResult("Non-Unique",e.getMessage());
+        e.printStackTrace();
         return new ResponseEntity(errorResult, HttpStatus.BAD_REQUEST);
     }
 }
